@@ -4,7 +4,7 @@ import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models';
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -33,6 +33,10 @@ export class AuthService {
           localStorage.setItem('userToken', JSON.stringify(user));
           this.toastr.success('Login successful');
           this.router.navigate(['/']);
+        }),
+        catchError((err) => {
+          this.toastr.error(err.error.message);
+          return of(err.error.message);
         })
       )
       .subscribe();
@@ -47,6 +51,10 @@ export class AuthService {
           localStorage.setItem('userToken', JSON.stringify(user));
           this.toastr.success('Register successful');
           this.router.navigate(['/auth/login']);
+        }),
+        catchError((err) => {
+          this.toastr.error(err.error.message);
+          return of(err.error.message);
         })
       )
       .subscribe();
