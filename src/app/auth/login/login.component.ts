@@ -5,8 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../service/auth.service';
 
 @Component({
@@ -16,12 +14,7 @@ import { AuthService } from '../service/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -34,7 +27,5 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
 
     this.authService.login(this.loginForm.value);
-    this.toastr.success('Login successful');
-    this.router.navigate(['/']);
   }
 }
